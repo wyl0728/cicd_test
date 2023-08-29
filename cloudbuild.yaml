@@ -1,0 +1,35 @@
+steps:
+  # Create GKE Cluster
+  - name: 'gcr.io/cloud-builders/terraform'
+    args: ['init']
+
+  - name: 'gcr.io/cloud-builders/terraform'
+    args: ['apply', '-auto-approve']
+    
+  # Build the Docker image and push it to GCR
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/my-app:$COMMIT_SHA', '.']
+  id: 'Build Docker Image'
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/my-app:$COMMIT_SHA']
+  id: 'Push Docker Image to GCR'
+  # Replace the variable in your deployment YAML file
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      sed -i "s|{{IMAGE_NAME}}|gcr.io/$PROJECT_ID/my-app:$COMMIT_SHA|g" deployment.yaml
+
+  # Deploy the app to GKE
+- name: 'gcr.io/cloud-builders/kubectl'
+  id: Deploy to GKE
+  args: 
+    - 'apply'
+    - '--filename=deployment.yaml'
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=asia-southeast1-b'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=cluster-1'
+  - 'CLOUDSDK_CORE_PROJECT=sg-rd-ce-yilin-wang'
+substitutions:
+  _PROJECT_ID: sg-rd-ce-yilin-wang  

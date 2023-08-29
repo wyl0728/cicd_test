@@ -1,10 +1,10 @@
 steps:
-  # Create GKE Cluster
-  - name: 'gcr.io/cloud-builders/terraform'
-    args: ['init']
+# Create GKE Cluster
+- name: 'gcr.io/cloud-builders/terraform'
+  args: ['init']
 
-  - name: 'gcr.io/cloud-builders/terraform'
-    args: ['apply', '-auto-approve']
+- name: 'gcr.io/cloud-builders/terraform'
+  args: ['apply', '-auto-approve']
     
   # Build the Docker image and push it to GCR
 - name: 'gcr.io/cloud-builders/docker'

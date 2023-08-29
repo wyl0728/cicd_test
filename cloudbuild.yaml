@@ -29,7 +29,7 @@ steps:
     - '--filename=deployment.yaml'
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=asia-southeast1-b'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=cluster-1'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=my-gke-cluster'
   - 'CLOUDSDK_CORE_PROJECT=sg-rd-ce-yilin-wang'
 substitutions:
   _PROJECT_ID: sg-rd-ce-yilin-wang  

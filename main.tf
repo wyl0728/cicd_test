@@ -11,7 +11,6 @@ resource "google_container_cluster" "my_cluster" {
   subnetwork = "mynetwork"
 
   # Node pool configuration
-  remove_default_node_pool = true
 
   node_pool {
     name               = "default-pool"

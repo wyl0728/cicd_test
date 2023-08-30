@@ -1,10 +1,10 @@
 steps:
 # Create GKE Cluster
-- name: 'gcr.io/cloud-builders/terraform'
+- name: 'hashicorp/terraform:1.0.0'
   script: terraform init
 
-- name: 'gcr.io/cloud-builders/terraform'
-  script: terraform init -auto-approve
+- name: 'hashicorp/terraform:1.0.0'
+  script: terraform apply -auto-approve
     
   # Build the Docker image and push it to GCR
 - name: 'gcr.io/cloud-builders/docker'
